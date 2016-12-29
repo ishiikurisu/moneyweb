@@ -2,10 +2,10 @@ package main
 
 import "os"
 import "net/http"
-import "io"
+import "github.com/ishiikurisu/moneyweb/view"
 
 func hello(w http.ResponseWriter, r *http.Request) {
-    io.WriteString(w, "Hello from Money Log!")
+    view.SayHello(w)
 }
 
 func main() {
