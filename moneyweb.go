@@ -3,9 +3,18 @@ package main
 import "os"
 import "net/http"
 import "github.com/ishiikurisu/moneyweb/view"
+// import "fmt"
 
 func hello(w http.ResponseWriter, r *http.Request) {
-    view.SayHello(w)
+    cookies := r.Cookies()
+    username := r.FormValue("username")
+
+    if len(cookies) == 0 && len(username) == 0 {
+        view.SayHello(w)
+    } else {
+        view.SayWelcome(w)
+    }
+
 }
 
 func signUp(w http.ResponseWriter, r *http.Request) {

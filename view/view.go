@@ -32,12 +32,12 @@ func LoadFileWithoutArgs(writer io.Writer, path string) {
 
 // Displays the home screen
 func SayHello(writer io.Writer) {
-    htmlPath := GetPwd() + "view/index.gohtml"
-    templ, err := template.ParseFiles(htmlPath)
-    err = templ.Execute(writer, nil)
-    if err != nil {
-        fmt.Printf("%#v\n", err)
-    }
+    LoadFileWithoutArgs(writer, "view/index.empty.gohtml")
+}
+
+// Displays the logged screen
+func SayWelcome(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "view/index.logged.gohtml")
 }
 
 // Loads sign up screen
