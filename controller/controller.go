@@ -11,8 +11,6 @@ type Server struct {
 
     // This is the port this webserver will serve upon.
     Port string
-
-    //TODO Create database access
 }
 
 // Create a webserver for this app.
@@ -45,8 +43,10 @@ func (server *Server) Serve() {
 
 // Function for index function
 func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
-    user := server.Storage.GetLog(w, r)
-    if len(user) > 0 {
+    log := server.Storage.GetLog(w, r)
+    if len(log) > 0 {
+        // TODO: Display entries
+        // TODO: Enable addition of new entries
         view.SayWelcome(w)
     } else {
         view.SayHello(w)
@@ -71,5 +71,15 @@ func (server *Server) AddEntry(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
     // TODO Register log
+
+    // Extract data from request
+    description := r.FormValue("description")
+    value := r.FormValue("value")
+
+    // Save entry to current log
+    server.Storage.AddEntryFromRaw(description, value)
+    w, r = server.Storage.SaveLog(w, r)
+
+    // Redirecting to correct page
     http.Redirect(w, r, "/", http.StatusFound)
 }

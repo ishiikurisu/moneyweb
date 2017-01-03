@@ -4,11 +4,15 @@ import "fmt"
 import "net/url"
 import "net/http"
 import "net/http/cookiejar"
+import "github.com/ishiikurisu/moneylog"
 
 // This is the structure that will deal with the session's cookies. It will
 // need to know which URL these cookies relate to, and its logic is already
 // coded to understand the app's behaviour.
 type LocalStorage struct {
+    // The actual data. The logic of this application. The reason we are here.
+    MoneyLog moneylog.Log
+
     // The structure that will deal with our cookies.
     CookieJar *cookiejar.Jar
 
@@ -25,8 +29,9 @@ func NewLocalStorage() (*LocalStorage, error) {
     if oops == nil && shit == nil {
         url.Scheme = "http"
         url.Host = "heroku.com"
-        s := LocalStorage{
+        s := LocalStorage {
             // TODO Implement actual cookie jar
+            MoneyLog: moneylog.EmptyLog(),
             CookieJar: jar,
             Url: url,
         }
@@ -80,4 +85,27 @@ func (storage *LocalStorage) GetUser(w http.ResponseWriter, r *http.Request) str
     }
 
     return outlet
+}
+
+// Adds the given raw entry to the log.
+func (storage *LocalStorage) AddEntryFromRaw(rawDescription, rawValue string) {
+    var description string
+    var value float64
+
+    description = rawDescription
+    fmt.Sscanf(rawValue, "%F", &value)
+
+    storage.MoneyLog.Add(description, value)
+}
+
+// Saves the current money log on a cookie.
+func (storage *LocalStorage) SaveLog(w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
+    rawLog := storage.MoneyLog.ToString()
+    cookie := http.Cookie {
+        Name: "MoneyLog",
+        Value: rawLog,
+    }
+    storage.CookieJar.SetCookies(storage.Url, append(storage.CookieJar.Cookies(storage.Url), &cookie))
+    http.SetCookie(w, &cookie)
+    return w, r
 }

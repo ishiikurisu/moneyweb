@@ -59,5 +59,4 @@ func AddEntry(writer io.Writer, body map[string]string) {
     input := fmt.Sprintf("<input type=\"text\" name=\"description\" value=\"%s\"/>", body["Message"])
     args["Query"] = template.HTML(input)
     LoadFileWithArgs(writer, "assets/html/add.gohtml", args)
-    // <!-- <p>Entry description: {{.Body["Query"]}}</p> -->
 }
