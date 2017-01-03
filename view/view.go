@@ -2,6 +2,7 @@ package view
 
 import "os"
 import "io"
+import "io/ioutil"
 import "html/template"
 import "fmt"
 
@@ -19,10 +20,25 @@ func GetPwd() string {
     return codePath
 }
 
+// Extracts the CSS path
+func loadCss() string {
+    pwd := GetPwd()
+    css, err := ioutil.ReadFile(pwd + "assets/app.css")
+
+    if err != nil {
+        fmt.Println(err)
+        css = []byte { }
+    }
+
+    return string(css)
+}
+
+// Standard procedure to load a HTML file that does not need any customization.
 func LoadFileWithoutArgs(writer io.Writer, path string) {
     htmlPath := GetPwd() + path
     templ, err := template.ParseFiles(htmlPath)
-    err = templ.Execute(writer, nil)
+    css := template.CSS(loadCss())
+    err = templ.Execute(writer, css)
     if err != nil {
         fmt.Printf("%#v\n", err)
     }

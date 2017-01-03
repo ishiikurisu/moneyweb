@@ -4,11 +4,18 @@ import "net/http"
 import "github.com/ishiikurisu/moneyweb/model"
 import "github.com/ishiikurisu/moneyweb/view"
 
+// The definitions of a server.
 type Server struct {
+    // This storage is responsible for dealing with Cookies.
     Storage *model.LocalStorage
+
+    // This is the port this webserver will serve upon.
     Port string
+
+    //TODO Create database access
 }
 
+// Create a webserver for this app.
 func CreateServer() Server {
     // Create server structure
     storage, oops := model.NewLocalStorage()
@@ -30,6 +37,7 @@ func CreateServer() Server {
     return server
 }
 
+// Puts the webserver to, well, serve.
 func (server *Server) Serve() {
     http.ListenAndServe(server.Port, nil)
 }
@@ -56,11 +64,11 @@ func (server *Server) LogIn(w http.ResponseWriter, r *http.Request) {
     view.Login(w)
 }
 
+// 
 func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
     username := r.FormValue("username")
     password := r.FormValue("password")
 
-    // TODO Use storage to store these cookies
     // TODO Create a database object to store these
     if model.RegisterUser(username, password) {
         w, r = server.Storage.AddCookie(w, r)
