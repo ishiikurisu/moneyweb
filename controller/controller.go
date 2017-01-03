@@ -5,13 +5,13 @@ import "github.com/ishiikurisu/moneyweb/model"
 import "github.com/ishiikurisu/moneyweb/view"
 
 type Server struct {
-    Storage *model.ServerStorage
+    Storage *model.LocalStorage
     Port string
 }
 
 func CreateServer() Server {
     // Create server structure
-    storage, oops := model.NewServerStorage()
+    storage, oops := model.NewLocalStorage()
     if oops != nil {
         panic(oops)
     }
@@ -35,11 +35,10 @@ func (server *Server) Serve() {
 }
 
 // SERVER ROUTED FUNCTIONS
-// TODO Make this procedures be part of server's state
 
 // Function for index function
 func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
-    user := model.GetUser(w, r)
+    user := server.Storage.GetUser(w, r)
     if len(user) > 0 {
         view.SayWelcome(w)
     } else {
@@ -60,8 +59,11 @@ func (server *Server) LogIn(w http.ResponseWriter, r *http.Request) {
 func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
     username := r.FormValue("username")
     password := r.FormValue("password")
+
+    // TODO Use storage to store these cookies
+    // TODO Create a database object to store these
     if model.RegisterUser(username, password) {
-        w, r = model.AddCookie(w, r)
+        w, r = server.Storage.AddCookie(w, r)
     }
     http.Redirect(w, r, "/", http.StatusFound)
 }
