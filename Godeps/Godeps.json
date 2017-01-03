@@ -5,5 +5,10 @@
 	"Packages": [
 		"./..."
 	],
-	"Deps": []
+	"Deps": [
+		{
+			"ImportPath": "github.com/ishiikurisu/moneylog",
+			"Rev": "0b7f63bc93ae2533b902975706496d5f501c9bfe"
+		}
+	]
 }
