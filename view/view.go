@@ -37,17 +37,22 @@ func loadCss() string {
 func LoadFileWithoutArgs(writer io.Writer, path string) {
     htmlPath := GetPwd() + path
     templ, err := template.ParseFiles(htmlPath)
-    css := template.CSS(loadCss())
-    err = templ.Execute(writer, css)
+    viewModel := NewViewModel()
+    err = templ.Execute(writer, viewModel)
     if err != nil {
         fmt.Printf("%#v\n", err)
     }
 }
 
+// TODO Create loading with args, where args is a `map[string]string` to be
+// added to the `ViewModel` class that formats the page.
+
 /* VIEWS */
 
 // Displays the home screen
 func SayHello(writer io.Writer) {
+    // TODO Move these *.gohtml files to the assets folder, creating a HTML
+    // folder for them.
     LoadFileWithoutArgs(writer, "viewmodel/index.empty.gohtml")
 }
 
@@ -61,6 +66,7 @@ func SignUp(writer io.Writer) {
     LoadFileWithoutArgs(writer, "viewmodel/sign_up.gohtml")
 }
 
+// Displays the login page
 func Login(writer io.Writer) {
     LoadFileWithoutArgs(writer, "viewmodel/login.gohtml")
 }

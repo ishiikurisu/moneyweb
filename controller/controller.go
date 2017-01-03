@@ -64,7 +64,7 @@ func (server *Server) LogIn(w http.ResponseWriter, r *http.Request) {
     view.Login(w)
 }
 
-// 
+//
 func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
     username := r.FormValue("username")
     password := r.FormValue("password")
