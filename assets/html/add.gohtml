@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+        <style>
+            {{.Style}}
+        </style>
+        <title>LOGEY</title>
+    </head>
+    <body>
+        <form action="register" method="post">
+            <legend>Add entry!</legend>
+            <p>Entry description: {{.Body.Query}}</p>
+            <p>Value: <input type="text" name="password" value="0.00">$</p>
+            <p><input type="submit"></p>
+        </form>
+    </body>
+</html>

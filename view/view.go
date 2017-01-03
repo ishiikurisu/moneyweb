@@ -32,27 +32,32 @@ func LoadFileWithoutArgs(writer io.Writer, path string) {
 
 // TODO Create loading with args, where args is a `map[string]string` to be
 // added to the `ViewModel` class that formats the page.
+func LoadFileWithArgs(writer io.Writer, path string, args map[string]template.HTML) {
+    htmlPath := GetPwd() + path
+    templ, err := template.ParseFiles(htmlPath)
+    viewModel := NewViewModel()
+    viewModel.AddBody(args)
+    err = templ.Execute(writer, viewModel)
+    if err != nil {
+        fmt.Printf("%#v\n", err)
+    }
+}
 
 /* VIEWS */
 
 // Displays the home screen
 func SayHello(writer io.Writer) {
-    // TODO Move these *.gohtml files to the assets folder, creating a HTML
-    // folder for them.
     LoadFileWithoutArgs(writer, "assets/html/index.empty.gohtml")
 }
 
-// Displays the logged screen
 func SayWelcome(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/index.logged.gohtml")
+    LoadFileWithoutArgs(writer, "assets/html/index.filled.gohtml")
 }
 
-// Loads sign up screen
-func SignUp(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/sign_up.gohtml")
-}
-
-// Displays the login page
-func Login(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/login.gohtml")
+func AddEntry(writer io.Writer, body map[string]string) {
+    args := make(map[string]template.HTML)
+    input := fmt.Sprintf("<input type=\"text\" name=\"description\" value=\"%s\"/>", body["Message"])
+    args["Query"] = template.HTML(input)
+    LoadFileWithArgs(writer, "assets/html/add.gohtml", args)
+    // <!-- <p>Entry description: {{.Body["Query"]}}</p> -->
 }

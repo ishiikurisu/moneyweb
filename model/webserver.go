@@ -24,3 +24,8 @@ func GetAddress() string {
 
     return "http://" + address
 }
+
+// Generates random messages for log entries
+func GetRandomMessage() string {
+    return "New entry!"
+}

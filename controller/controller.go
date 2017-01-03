@@ -30,6 +30,8 @@ func CreateServer() Server {
 
     // Route stuff
     http.HandleFunc("/", server.SayHello)
+    http.HandleFunc("/add", server.AddEntry)
+    http.HandleFunc("/register", server.Register)
 
     return server
 }
@@ -52,3 +54,22 @@ func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
 }
 
 // TODO Create serverless actions
+
+// Function for adding a entry
+func (server *Server) AddEntry(w http.ResponseWriter, r *http.Request) {
+    rawLog := server.Storage.GetLog(w, r)
+    msg := model.GetRandomMessage()
+
+    if len(rawLog) == 0 {
+        msg = "First log!"
+    }
+
+    data := make(map[string]string)
+    data["Message"] = msg
+    view.AddEntry(w, data)
+}
+
+func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
+    // TODO Register log
+    http.Redirect(w, r, "/", http.StatusFound)
+}

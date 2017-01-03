@@ -14,7 +14,7 @@ type ViewModel struct {
     Footer template.HTML
 
     // This mapping will relate the data produced by the model to the view.
-    Body map[string]string
+    Body map[string]template.HTML
 
     // TODO Add Javacript assets
 }
@@ -24,7 +24,7 @@ func NewViewModel() *ViewModel {
     vm := ViewModel {
         Style: template.CSS(loadCss()),
         Footer: template.HTML(loadFooter()),
-        Body: make(map[string]string),
+        Body: make(map[string]template.HTML),
     }
     return &vm
 }
@@ -56,6 +56,8 @@ func loadFooter() string {
 }
 
 // TODO Create add body function
-func (vm *ViewModel) AddBody(body map[string]string) {
-    vm.Body = body
+func (vm *ViewModel) AddBody(body map[string]template.HTML) {
+    for key, value := range body {
+        vm.Body[key] = value
+    }
 }
