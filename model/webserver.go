@@ -24,15 +24,3 @@ func GetAddress() string {
 
     return "http://" + address
 }
-
-// Gets the current PWD
-func GetPwd() string {
-    codePath := "./src/github.com/ishiikurisu/moneyweb/"
-    port := os.Getenv("PORT")
-
-    if len(port) != 0 {
-        codePath = os.Getenv("HOME") + "/"
-    }
-
-    return codePath
-}

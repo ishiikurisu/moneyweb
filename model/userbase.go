@@ -3,7 +3,6 @@ package model
 import "net/http"
 import "time"
 import "fmt"
-// import "net/http/cookiejar"
 
 func GetUser(w http.ResponseWriter, r *http.Request) string {
     outlet := ""
