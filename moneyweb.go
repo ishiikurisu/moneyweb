@@ -1,6 +1,5 @@
 package main
 
-import "os"
 import "net/http"
 import "github.com/ishiikurisu/moneyweb/view"
 import "github.com/ishiikurisu/moneyweb/model"
@@ -18,6 +17,10 @@ func signUp(w http.ResponseWriter, r *http.Request) {
     view.SignUp(w)
 }
 
+func login(w http.ResponseWriter, r *http.Request) {
+    view.Login(w)
+}
+
 func register(w http.ResponseWriter, r *http.Request) {
     username := r.FormValue("username")
     password := r.FormValue("password")
@@ -28,12 +31,10 @@ func register(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-    port := os.Getenv("PORT")
-    if len(port) == 0 {
-        port = "8000"
-    }
+    port := model.GetPort()
     http.HandleFunc("/", hello)
     http.HandleFunc("/sign_up", signUp)
     http.HandleFunc("/register", register)
-    http.ListenAndServe(":" + port, nil)
+    http.HandleFunc("/login", login)
+    http.ListenAndServe(port, nil)
 }

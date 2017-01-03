@@ -32,15 +32,19 @@ func LoadFileWithoutArgs(writer io.Writer, path string) {
 
 // Displays the home screen
 func SayHello(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "view/index.empty.gohtml")
+    LoadFileWithoutArgs(writer, "viewmodel/index.empty.gohtml")
 }
 
 // Displays the logged screen
 func SayWelcome(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "view/index.logged.gohtml")
+    LoadFileWithoutArgs(writer, "viewmodel/index.logged.gohtml")
 }
 
 // Loads sign up screen
 func SignUp(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "view/sign_up.gohtml")
+    LoadFileWithoutArgs(writer, "viewmodel/sign_up.gohtml")
+}
+
+func Login(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "viewmodel/login.gohtml")
 }
