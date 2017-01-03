@@ -52,6 +52,21 @@ func (storage *LocalStorage) AddCookie(w http.ResponseWriter, r *http.Request) (
     return w, r
 }
 
+// Extracts the current money log based on the store cookies. If there is no
+// log, a string of length 0 is returned.
+func (storage *LocalStorage) GetLog(w http.ResponseWriter, r *http.Request) string {
+    outlet := ""
+    cookie, err := r.Cookie("MoneyLog")
+
+    if err == nil {
+        outlet = cookie.Value
+    } else {
+        fmt.Println(err)
+    }
+
+    return outlet
+}
+
 // Extracts the current user based on the store cookies. If there is no user,
 // a string of length 0 is returned.
 func (storage *LocalStorage) GetUser(w http.ResponseWriter, r *http.Request) string {
