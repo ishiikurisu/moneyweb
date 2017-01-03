@@ -1,0 +1,32 @@
+body {
+  font-family: 'Fredoka One', cursive;
+  font-size: 16px;
+  text-align: center;
+  background: #fef8ce;
+  color: #9BC74C;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+a:link {
+  color: #9BC74C;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #9BC74C;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  background-color: #394817;
+  color: #fde74c;
+  font-size: 16px;
+  padding: 1px;
+}

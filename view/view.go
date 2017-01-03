@@ -2,7 +2,6 @@ package view
 
 import "os"
 import "io"
-import "io/ioutil"
 import "html/template"
 import "fmt"
 
@@ -18,19 +17,6 @@ func GetPwd() string {
     }
 
     return codePath
-}
-
-// Extracts the CSS path
-func loadCss() string {
-    pwd := GetPwd()
-    css, err := ioutil.ReadFile(pwd + "assets/app.css")
-
-    if err != nil {
-        fmt.Println(err)
-        css = []byte { }
-    }
-
-    return string(css)
 }
 
 // Standard procedure to load a HTML file that does not need any customization.
@@ -53,20 +39,20 @@ func LoadFileWithoutArgs(writer io.Writer, path string) {
 func SayHello(writer io.Writer) {
     // TODO Move these *.gohtml files to the assets folder, creating a HTML
     // folder for them.
-    LoadFileWithoutArgs(writer, "viewmodel/index.empty.gohtml")
+    LoadFileWithoutArgs(writer, "assets/html/index.empty.gohtml")
 }
 
 // Displays the logged screen
 func SayWelcome(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "viewmodel/index.logged.gohtml")
+    LoadFileWithoutArgs(writer, "assets/html/index.logged.gohtml")
 }
 
 // Loads sign up screen
 func SignUp(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "viewmodel/sign_up.gohtml")
+    LoadFileWithoutArgs(writer, "assets/html/sign_up.gohtml")
 }
 
 // Displays the login page
 func Login(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "viewmodel/login.gohtml")
+    LoadFileWithoutArgs(writer, "assets/html/login.gohtml")
 }
