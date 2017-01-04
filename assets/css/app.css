@@ -14,15 +14,11 @@ h1 {
 
 a:link {
   color: #9BC74C;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 a:visited {
   color: #9BC74C;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 footer {
