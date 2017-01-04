@@ -62,7 +62,7 @@ func LogFromString(raw string) Log {
     inlet := strings.Split(raw, GetSeparator())
     log := EmptyLog()
 
-    if len(raw) {
+    if len(raw) == 0 {
         return log
     }
 
