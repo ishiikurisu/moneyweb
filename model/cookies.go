@@ -6,6 +6,10 @@ import "net/http"
 import "net/http/cookiejar"
 import "github.com/ishiikurisu/moneylog"
 
+/*****************************
+ * LOCAL STORAGE DEFINITIONS *
+ *****************************/
+
 // This is the structure that will deal with the session's cookies. It will
 // need to know which URL these cookies relate to, and its logic is already
 // coded to understand the app's behaviour.

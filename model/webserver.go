@@ -27,5 +27,6 @@ func GetAddress() string {
 
 // Generates random messages for log entries
 func GetRandomMessage() string {
+    // TODO Improve this function
     return "New entry!"
 }

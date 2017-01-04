@@ -11,7 +11,11 @@
     <body>
         <h1>LOGEY</h1>
         <p>Logging your money since 2016</p>
-        <p>You are logged in!</p>
+        <div class="log">
+            <p><a href="add">Add entry</a></p>
+            <p>Balance: {{.Body.Balance}}</p>
+            {{.Body.Entries}}
+        </div>
         {{.Footer}}
     </body>
 </html>

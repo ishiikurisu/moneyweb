@@ -4,6 +4,10 @@ import "net/http"
 import "github.com/ishiikurisu/moneyweb/model"
 import "github.com/ishiikurisu/moneyweb/view"
 
+/*********************
+ * SERVER DEFINITION *
+ *********************/
+
 // The definitions of a server.
 type Server struct {
     // This storage is responsible for dealing with Cookies.
@@ -39,7 +43,9 @@ func (server *Server) Serve() {
     http.ListenAndServe(server.Port, nil)
 }
 
-// SERVER ROUTED FUNCTIONS
+/***************************
+ * SERVER ROUTED FUNCTIONS *
+ ***************************/
 
 // Function for index function
 func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
@@ -47,13 +53,11 @@ func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
     if len(log) > 0 {
         // TODO: Display entries
         // TODO: Enable addition of new entries
-        view.SayWelcome(w)
+        view.BeUseful(w, model.LogToMap(log))
     } else {
         view.SayHello(w)
     }
 }
-
-// TODO Create serverless actions
 
 // Function for adding a entry
 func (server *Server) AddEntry(w http.ResponseWriter, r *http.Request) {
@@ -69,9 +73,8 @@ func (server *Server) AddEntry(w http.ResponseWriter, r *http.Request) {
     view.AddEntry(w, data)
 }
 
+// Saves entry to cookies and to model format
 func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
-    // TODO Register log
-
     // Extract data from request
     description := r.FormValue("description")
     value := r.FormValue("value")
