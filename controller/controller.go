@@ -51,8 +51,6 @@ func (server *Server) Serve() {
 func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
     log := server.Storage.GetLog(w, r)
     if len(log) > 0 {
-        // TODO: Display entries
-        // TODO: Enable addition of new entries
         view.BeUseful(w, model.LogToMap(log))
     } else {
         view.SayHello(w)

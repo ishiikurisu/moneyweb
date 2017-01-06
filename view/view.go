@@ -59,7 +59,6 @@ func BeUseful(writer io.Writer, body map[string]string) {
 
     entries := "<table rules='all'>\n<tr><th>Description</th><th>Value</th></tr>"
     for i := limit-1; i >= 0; i-- {
-        // TODO Make these entries prettier
         tdClass := "positive"
         if !isPositive(values[i]) {
             tdClass = "negative"
@@ -69,6 +68,7 @@ func BeUseful(writer io.Writer, body map[string]string) {
     }
     entries = fmt.Sprintf("%s</table>\n", entries)
     args["Entries"] = template.HTML(entries)
+    // TODO Make this balance prettier
     args["Balance"] = template.HTML(fmt.Sprintf("%s$", body["balance"]))
 
     LoadFileWithArgs(writer, "assets/html/index.filled.gohtml", args)
