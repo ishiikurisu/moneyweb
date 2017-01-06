@@ -121,6 +121,7 @@ func (storage *LocalStorage) SaveLog(w http.ResponseWriter, r *http.Request) (ht
     cookie := http.Cookie {
         Name: "MoneyLog",
         Value: rawLog,
+        MaxAge: 0,
     }
     http.SetCookie(w, &cookie)
     return w, r
