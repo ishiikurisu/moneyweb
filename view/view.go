@@ -58,7 +58,7 @@ func BeUseful(writer io.Writer, body map[string]string) {
     limit := len(descriptions)
 
     entries := ""
-    for i := 0; i < limit; i++ {
+    for i := limit-1; i >= 0; i-- {
         // TODO Make these entries prettier
         entries = fmt.Sprintf("%s<p>%s: %s$</p>\n", entries, descriptions[i], values[i])
     }
