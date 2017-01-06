@@ -116,7 +116,6 @@ func (storage *LocalStorage) SaveLog(w http.ResponseWriter, r *http.Request) (ht
         Name: "MoneyLog",
         Value: rawLog,
     }
-    storage.CookieJar.SetCookies(storage.Url, append(storage.CookieJar.Cookies(storage.Url), &cookie))
     http.SetCookie(w, &cookie)
     return w, r
 }
