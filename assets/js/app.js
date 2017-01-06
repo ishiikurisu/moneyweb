@@ -1,3 +1,3 @@
 function downloadLog() {
-  window.open('/log.txt');
+  window.open('raw');
 }
