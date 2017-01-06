@@ -83,7 +83,6 @@ func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
     // Save entry to current log
     server.Storage.AddEntryFromRaw(description, value)
     w, r = server.Storage.SaveLog(w, r)
-    server.Storage.StoreLog(w, r)
 
     // Redirecting to correct page
     http.Redirect(w, r, "/", http.StatusFound)
@@ -110,7 +109,6 @@ func (server *Server) UploadingLog(w http.ResponseWriter, r *http.Request) {
     // Save entry to current log
     server.Storage.AddLogFromFile(rawLog)
     w, r = server.Storage.SaveLog(w, r)
-    server.Storage.StoreLog(w, r)
 
     // Redirecting to correct page
     http.Redirect(w, r, "/", http.StatusFound)
