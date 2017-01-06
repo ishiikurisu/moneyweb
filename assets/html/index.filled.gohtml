@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
         <style>
-          {{.Style}}
+            {{.Style}}
         </style>
         <title>LOGEY</title>
     </head>
@@ -13,9 +13,13 @@
         <p>Logging your money since 2016</p>
         <div class="log">
             <p><a href="add">Add entry</a></p>
+            <p><a href="/" onclick="downloadLog()">Download log</a></p>
             <p>Balance: {{.Body.Balance}}</p>
             {{.Body.Entries}}
         </div>
         {{.Footer}}
+        <script type="text/javascript">
+            {{.Script}}
+        </script>
     </body>
 </html>

@@ -88,3 +88,7 @@ func AddEntry(writer io.Writer, body map[string]string) {
     args["Query"] = template.HTML(input)
     LoadFileWithArgs(writer, "assets/html/add.gohtml", args)
 }
+
+func EnableData(writer io.Writer, data string) {
+    io.WriteString(writer, data)
+}

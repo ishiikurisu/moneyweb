@@ -5,6 +5,7 @@ import "net/url"
 import "net/http"
 import "net/http/cookiejar"
 import "github.com/ishiikurisu/moneylog"
+import "os"
 
 /*****************************
  * LOCAL STORAGE DEFINITIONS *
@@ -22,6 +23,9 @@ type LocalStorage struct {
 
     // This is the URL these cookies refer to.
     Url *url.URL
+
+    // This is where the current log is stored on local memory
+    LogFile string
 }
 
 // Creates a cookie storage structure.
@@ -38,6 +42,7 @@ func NewLocalStorage() (*LocalStorage, error) {
             MoneyLog: moneylog.EmptyLog(),
             CookieJar: jar,
             Url: url,
+            LogFile: "log.txt",
         }
         storage = &s
     } else {
@@ -111,5 +116,24 @@ func (storage *LocalStorage) SaveLog(w http.ResponseWriter, r *http.Request) (ht
     }
     storage.CookieJar.SetCookies(storage.Url, append(storage.CookieJar.Cookies(storage.Url), &cookie))
     http.SetCookie(w, &cookie)
+    return w, r
+}
+
+
+func (storage *LocalStorage) StoreLog(w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
+    rawLog := storage.MoneyLog.ToString()
+    fp, err := os.Create(storage.LogFile)
+
+    if err != nil {
+        panic(err)
+    }
+    defer fp.Close()
+
+    _, err = fp.WriteString(rawLog)
+    if err != nil {
+        panic(err)
+    }
+    fp.Sync()
+
     return w, r
 }

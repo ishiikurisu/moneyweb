@@ -17,6 +17,7 @@ type ViewModel struct {
     Body map[string]template.HTML
 
     // TODO Add Javacript assets
+    Script template.JS
 }
 
 // Creates a new view model.
@@ -25,6 +26,7 @@ func NewViewModel() *ViewModel {
         Style: template.CSS(loadCss()),
         Footer: template.HTML(loadFooter()),
         Body: make(map[string]template.HTML),
+        Script: template.JS(loadJs()),
     }
     return &vm
 }
@@ -53,6 +55,19 @@ func loadFooter() string {
     }
 
     return string(footer)
+}
+
+// Loads the Javascript asset
+func loadJs() string {
+    pwd := GetPwd()
+    js, err := ioutil.ReadFile(pwd + "assets/js/app.js")
+
+    if err != nil {
+        fmt.Println(err)
+        js = []byte { }
+    }
+
+    return string(js)
 }
 
 // TODO Create add body function

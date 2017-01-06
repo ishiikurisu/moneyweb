@@ -34,6 +34,7 @@ func CreateServer() Server {
     http.HandleFunc("/", server.SayHello)
     http.HandleFunc("/add", server.AddEntry)
     http.HandleFunc("/register", server.Register)
+    http.HandleFunc("/log.txt", server.DownloadLog)
 
     return server
 }
@@ -80,7 +81,12 @@ func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
     // Save entry to current log
     server.Storage.AddEntryFromRaw(description, value)
     w, r = server.Storage.SaveLog(w, r)
+    server.Storage.StoreLog(w, r)
 
     // Redirecting to correct page
     http.Redirect(w, r, "/", http.StatusFound)
+}
+
+func (server *Server) DownloadLog(w http.ResponseWriter, r *http.Request) {
+    view.EnableData(w, server.Storage.GetLog(w, r))
 }
