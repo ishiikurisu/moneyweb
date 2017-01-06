@@ -34,7 +34,10 @@ func CreateServer() Server {
     http.HandleFunc("/", server.SayHello)
     http.HandleFunc("/add", server.AddEntry)
     http.HandleFunc("/register", server.Register)
+    // TODO Change "/log.txt" to "/raw"
     http.HandleFunc("/log.txt", server.DownloadLog)
+    http.HandleFunc("/upload", server.UploadLog)
+    http.HandleFunc("/uploading", server.UploadingLog)
 
     return server
 }
@@ -89,4 +92,24 @@ func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) DownloadLog(w http.ResponseWriter, r *http.Request) {
     view.EnableData(w, server.Storage.GetLog(w, r))
+}
+
+func (server *Server) UploadLog(w http.ResponseWriter, r *http.Request) {
+    view.UploadLog(w)
+}
+
+func (server *Server) UploadingLog(w http.ResponseWriter, r *http.Request) {
+    // Extract data from request
+    rawLog, _, err := r.FormFile("file")
+    if err != nil {
+        panic(err)
+    }
+
+    // Save entry to current log
+    server.Storage.AddLogFromFile(rawLog)
+    w, r = server.Storage.SaveLog(w, r)
+    server.Storage.StoreLog(w, r)
+
+    // Redirecting to correct page
+    http.Redirect(w, r, "/", http.StatusFound)
 }

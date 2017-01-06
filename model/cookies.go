@@ -6,6 +6,8 @@ import "net/http"
 import "net/http/cookiejar"
 import "github.com/ishiikurisu/moneylog"
 import "os"
+import "mime/multipart"
+import "bufio"
 
 /*****************************
  * LOCAL STORAGE DEFINITIONS *
@@ -136,4 +138,28 @@ func (storage *LocalStorage) StoreLog(w http.ResponseWriter, r *http.Request) (h
     fp.Sync()
 
     return w, r
+}
+
+func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) {
+    buffer := bufio.NewReader(mmf)
+    current := ReadField(buffer)
+    outlet := ""
+
+    for current != "...," {
+        outlet += current
+        outlet += ","
+        current = ReadField(buffer)
+    }
+
+    outlet += current
+    storage.MoneyLog = moneylog.LogFromString(outlet)
+}
+
+func ReadField(reader *bufio.Reader) string {
+    raw := make([]byte, 0)
+    raw, err := reader.ReadBytes(',')
+    if err != nil {
+        panic(err)
+    }
+    return string(raw)
 }

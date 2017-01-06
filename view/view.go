@@ -89,6 +89,12 @@ func AddEntry(writer io.Writer, body map[string]string) {
     LoadFileWithArgs(writer, "assets/html/add.gohtml", args)
 }
 
+// Writes raw file to browser
 func EnableData(writer io.Writer, data string) {
     io.WriteString(writer, data)
+}
+
+// Displays page to enable upload of previous user log
+func UploadLog(writer io.Writer) {
+    LoadFileWithoutArgs(writer, "assets/html/upload.gohtml")
 }
