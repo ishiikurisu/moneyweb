@@ -1,6 +1,6 @@
 body {
   font-family: 'Fredoka One', cursive;
-  font-size: 22px;
+  font-size: 30px;
   text-align: center;
   background: #fef8ce;
   color: #9BC74C;
@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 50px;
 }
 
 a:link {
@@ -24,6 +24,28 @@ a:visited {
 footer {
   background-color: #394817;
   color: #fde74c;
-  font-size: 16px;
+  font-size: 20px;
   padding: 1px;
+}
+
+table {
+  color: #394817;
+  width: 100%;
+  background-color: #c2c0c1;
+  border: 1px solid #211A1E;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #c3e8f7;
+}
+
+td.positive {
+  color: #fde74c;
+  border: 1px solid #211A1E;
+}
+
+td.negative {
+  color: #c3423f;
+  border: 1px solid #211A1E;
 }

@@ -57,15 +57,27 @@ func BeUseful(writer io.Writer, body map[string]string) {
     values := strings.Split(body["values"], "\n")
     limit := len(descriptions)
 
-    entries := ""
+    entries := "<table rules='all'>\n<tr><th>Description</th><th>Value</th></tr>"
     for i := limit-1; i >= 0; i-- {
         // TODO Make these entries prettier
-        entries = fmt.Sprintf("%s<p>%s: %s$</p>\n", entries, descriptions[i], values[i])
+        tdClass := "positive"
+        if !isPositive(values[i]) {
+            tdClass = "negative"
+        }
+        entries = fmt.Sprintf("%s<tr><td>%s</td>", entries, descriptions[i])
+        entries = fmt.Sprintf("%s<td class='%s'>%s$</td></p>\n", entries, tdClass, values[i])
     }
+    entries = fmt.Sprintf("%s</table>\n", entries)
     args["Entries"] = template.HTML(entries)
     args["Balance"] = template.HTML(fmt.Sprintf("%s$", body["balance"]))
 
     LoadFileWithArgs(writer, "assets/html/index.filled.gohtml", args)
+}
+
+func isPositive(raw string) bool {
+    var value float64
+    fmt.Sscanf(raw, "%f", &value)
+    return value >= 0
 }
 
 // Displays page to add entry
