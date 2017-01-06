@@ -98,14 +98,20 @@ func (storage *LocalStorage) GetUser(w http.ResponseWriter, r *http.Request) str
     return outlet
 }
 
-// Adds the given raw entry to the log.
-func (storage *LocalStorage) AddEntryFromRaw(rawDescription, rawValue string) {
+// Extracts stuff from raw strings
+func stuffFromRaw(rawDescription, rawValue string) (string, float64) {
     var description string
     var value float64
 
     description = rawDescription
     fmt.Sscanf(rawValue, "%F", &value)
 
+    return description, value
+}
+
+// Adds the given raw entry to the log.
+func (storage *LocalStorage) AddEntryFromRaw(rawDescription, rawValue string) {
+    description, value := stuffFromRaw(rawDescription, rawValue)
     storage.MoneyLog.Add(description, value)
 }
 
@@ -161,4 +167,17 @@ func ReadField(reader *bufio.Reader) string {
         panic(err)
     }
     return string(raw)
+}
+
+func (storage *LocalStorage) AddEntryFromRawAndSaveLog(d, v string, w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
+    description, value := stuffFromRaw(d, v)
+    raw := storage.GetLog(w, r)
+    log := moneylog.LogFromString(raw)
+    log.Add(description, value)
+    cookie := http.Cookie {
+        Name: "MoneyLog",
+        Value: log.ToString(),
+    }
+    http.SetCookie(w, &cookie)
+    return w, r
 }

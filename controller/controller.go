@@ -81,8 +81,7 @@ func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
     value := r.FormValue("value")
 
     // Save entry to current log
-    server.Storage.AddEntryFromRaw(description, value)
-    w, r = server.Storage.SaveLog(w, r)
+    w, r = server.Storage.AddEntryFromRawAndSaveLog(description, value, w, r)
 
     // Redirecting to correct page
     http.Redirect(w, r, "/", http.StatusFound)
