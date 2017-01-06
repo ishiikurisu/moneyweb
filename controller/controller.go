@@ -100,14 +100,14 @@ func (server *Server) UploadLog(w http.ResponseWriter, r *http.Request) {
 // Loads file from user's computer to use on logging
 func (server *Server) UploadingLog(w http.ResponseWriter, r *http.Request) {
     // Extract data from request
-    rawLog, _, err := r.FormFile("file")
+    fp, _, err := r.FormFile("file")
     if err != nil {
         panic(err)
     }
 
     // Save entry to current log
-    server.Storage.AddLogFromFile(rawLog)
-    w, r = server.Storage.SaveLog(w, r)
+    raw := server.Storage.AddLogFromFile(fp)
+    w, r = server.Storage.AddLogFromRawAndSaveLog(raw, w, r)
 
     // Redirecting to correct page
     http.Redirect(w, r, "/", http.StatusFound)

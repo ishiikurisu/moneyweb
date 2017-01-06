@@ -145,7 +145,7 @@ func (storage *LocalStorage) StoreLog(w http.ResponseWriter, r *http.Request) (h
     return w, r
 }
 
-func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) {
+func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) string {
     buffer := bufio.NewReader(mmf)
     current := ReadField(buffer)
     outlet := ""
@@ -157,7 +157,7 @@ func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) {
     }
 
     outlet += current
-    storage.MoneyLog = moneylog.LogFromString(outlet)
+    return outlet
 }
 
 func ReadField(reader *bufio.Reader) string {
@@ -174,6 +174,16 @@ func (storage *LocalStorage) AddEntryFromRawAndSaveLog(d, v string, w http.Respo
     raw := storage.GetLog(w, r)
     log := moneylog.LogFromString(raw)
     log.Add(description, value)
+    cookie := http.Cookie {
+        Name: "MoneyLog",
+        Value: log.ToString(),
+    }
+    http.SetCookie(w, &cookie)
+    return w, r
+}
+
+func (storage *LocalStorage) AddLogFromRawAndSaveLog(raw string, w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
+    log := moneylog.LogFromString(raw)
     cookie := http.Cookie {
         Name: "MoneyLog",
         Value: log.ToString(),
