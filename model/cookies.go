@@ -7,6 +7,7 @@ import "net/http/cookiejar"
 import "github.com/ishiikurisu/moneylog"
 import "mime/multipart"
 import "bufio"
+import "time"
 
 /*****************************
  * LOCAL STORAGE DEFINITIONS *
@@ -111,6 +112,7 @@ func (storage *LocalStorage) AddEntryFromRawAndSaveLog(d, v string, w http.Respo
     cookie := http.Cookie {
         Name: "MoneyLog",
         Value: log.ToString(),
+        Expires: time.Date(2020, time.May, 25, 23, 0, 0, 0, time.UTC),
     }
     http.SetCookie(w, &cookie)
     return w, r
