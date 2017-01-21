@@ -123,6 +123,7 @@ func (storage *LocalStorage) AddLogFromRawAndSaveLog(raw string, w http.Response
     cookie := http.Cookie {
         Name: "MoneyLog",
         Value: log.ToString(),
+        Expires: time.Date(2020, time.May, 25, 23, 0, 0, 0, time.UTC),
     }
     http.SetCookie(w, &cookie)
     return w, r
