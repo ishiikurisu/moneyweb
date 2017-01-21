@@ -80,6 +80,7 @@ func stuffFromRaw(rawDescription, rawValue string) (string, float64) {
     return description, value
 }
 
+// Extracts the log from a multipart file included in a HTTP request.
 func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) string {
     buffer := bufio.NewReader(mmf)
     current := ReadField(buffer)
@@ -95,6 +96,7 @@ func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) string {
     return outlet
 }
 
+// Reads a field as specified on the money log API from the reader buffer.
 func ReadField(reader *bufio.Reader) string {
     raw := make([]byte, 0)
     raw, err := reader.ReadBytes(',')
@@ -104,27 +106,30 @@ func ReadField(reader *bufio.Reader) string {
     return string(raw)
 }
 
+// Saves a log on memory in the form of a cookie
+func (storage *LocalStorage) SaveCookie(log moneylog.Log, w http.ResponseWriter) http.ResponseWriter {
+    cookie := http.Cookie {
+        Name: "MoneyLog",
+        Value: log.ToString(),
+        Expires: time.Date(2020, time.May, 25, 23, 0, 0, 0, time.UTC),
+    }
+    http.SetCookie(w, &cookie)
+    return w
+}
+
+// Adds a entry to current log and store the changes onto a cookie.
 func (storage *LocalStorage) AddEntryFromRawAndSaveLog(d, v string, w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
     description, value := stuffFromRaw(d, v)
     raw := storage.GetLog(w, r)
     log := moneylog.LogFromString(raw)
     log.Add(description, value)
-    cookie := http.Cookie {
-        Name: "MoneyLog",
-        Value: log.ToString(),
-        Expires: time.Date(2020, time.May, 25, 23, 0, 0, 0, time.UTC),
-    }
-    http.SetCookie(w, &cookie)
+    w = storage.SaveCookie(log, w)
     return w, r
 }
 
+// Stores the given log onto a cookie.
 func (storage *LocalStorage) AddLogFromRawAndSaveLog(raw string, w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
     log := moneylog.LogFromString(raw)
-    cookie := http.Cookie {
-        Name: "MoneyLog",
-        Value: log.ToString(),
-        Expires: time.Date(2020, time.May, 25, 23, 0, 0, 0, time.UTC),
-    }
-    http.SetCookie(w, &cookie)
+    w = storage.SaveCookie(log, w)
     return w, r
 }
