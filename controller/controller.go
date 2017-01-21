@@ -25,7 +25,7 @@ func CreateServer() Server {
         panic(oops)
     }
 
-    server := Server{
+    server := Server {
         Storage: storage,
         Port: model.GetPort(),
     }
@@ -37,6 +37,9 @@ func CreateServer() Server {
     http.HandleFunc("/raw", server.DownloadLog)
     http.HandleFunc("/upload", server.UploadLog)
     http.HandleFunc("/uploading", server.UploadingLog)
+
+    // Registering API
+    model.RegisterApi()
 
     return server
 }
@@ -76,11 +79,11 @@ func (server *Server) AddEntry(w http.ResponseWriter, r *http.Request) {
 
 // Saves entry to cookies and to model format
 func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
-    // Extract data from request
+    // Extracting data from request
     description := r.FormValue("description")
     value := r.FormValue("value")
 
-    // Save entry to current log
+    // Saving entry to current log
     w, r = server.Storage.AddEntryFromRawAndSaveLog(description, value, w, r)
 
     // Redirecting to correct page
@@ -99,13 +102,13 @@ func (server *Server) UploadLog(w http.ResponseWriter, r *http.Request) {
 
 // Loads file from user's computer to use on logging
 func (server *Server) UploadingLog(w http.ResponseWriter, r *http.Request) {
-    // Extract data from request
+    // Extracting data from request
     fp, _, err := r.FormFile("file")
     if err != nil {
         panic(err)
     }
 
-    // Save entry to current log
+    // Saving entry to current log
     raw := server.Storage.AddLogFromFile(fp)
     w, r = server.Storage.AddLogFromRawAndSaveLog(raw, w, r)
 
