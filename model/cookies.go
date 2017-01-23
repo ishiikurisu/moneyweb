@@ -80,6 +80,12 @@ func stuffFromRaw(rawDescription, rawValue string) (string, float64) {
     return description, value
 }
 
+// Converts a float64 to a string
+func stuff2raw(x float64) string {
+    y := fmt.Sprintf("%.2F", x)
+    return y
+}
+
 // Extracts the log from a multipart file included in a HTTP request.
 func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) string {
     buffer := bufio.NewReader(mmf)
