@@ -61,8 +61,10 @@ func (storage *LocalStorage) GetLog(w http.ResponseWriter, r *http.Request) stri
     outlet := ""
     cookie, err := r.Cookie("MoneyLog")
 
+
     if err == nil {
         outlet = cookie.Value
+        fmt.Printf("%s\n", outlet)
     } else {
         fmt.Println(err)
     }
@@ -93,9 +95,9 @@ func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) string {
     current := ReadField(buffer)
     outlet := ""
 
-    for current != "...," {
+    for current != "...|" {
         outlet += current
-        outlet += ","
+        outlet += "|"
         current = ReadField(buffer)
     }
 
@@ -106,7 +108,7 @@ func (storage *LocalStorage) AddLogFromFile(mmf multipart.File) string {
 // Reads a field as specified on the money log API from the reader buffer.
 func ReadField(reader *bufio.Reader) string {
     raw := make([]byte, 0)
-    raw, err := reader.ReadBytes(',')
+    raw, err := reader.ReadBytes('\n')
     if err != nil {
         panic(err)
     }

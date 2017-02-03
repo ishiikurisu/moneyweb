@@ -14,7 +14,7 @@ type Log struct {
 }
 
 func GetSeparator() string {
-    return ","
+    return "|"
 }
 
 // Creates an empty log without entries
