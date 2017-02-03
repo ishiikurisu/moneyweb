@@ -8,6 +8,7 @@ import "github.com/ishiikurisu/moneylog"
 import "mime/multipart"
 import "bufio"
 import "time"
+import "math"
 
 /*****************************
  * LOCAL STORAGE DEFINITIONS *
@@ -118,6 +119,8 @@ func (storage *LocalStorage) SaveCookie(log moneylog.Log, w http.ResponseWriter)
         Name: "MoneyLog",
         Value: log.ToString(),
         Expires: time.Date(2020, time.May, 25, 23, 0, 0, 0, time.UTC),
+        MaxAge: math.MaxInt32,
+        HttpOnly: false,
     }
     http.SetCookie(w, &cookie)
     return w
