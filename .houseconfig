@@ -1,5 +1,8 @@
 {
     "build": {
         "command": "make web"
+    },
+    "edit": {
+        "editor": "atom"
     }
 }

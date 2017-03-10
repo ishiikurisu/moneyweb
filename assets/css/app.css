@@ -49,3 +49,32 @@ td.negative {
   color: #c3423f;
   border: 1px solid #211A1E;
 }
+
+@keyframes example {
+    from {
+        color: #394817;
+    }
+    to {
+        color: #9BC74B;
+    }
+}
+
+input[type=submit] {
+    font-size: 30px;
+    font-family: 'Fredoka One', cursive;
+    background-color: #fef8ce;
+    border-style: none;
+    color: #9BC74C;
+    text-decoration: underline;
+    animation: example 1s;
+}
+
+input[type=text] {
+    display: inline-table;
+    font-size: 30px;
+    font-family: 'Fredoka One', cursive;
+    border-style: dashed;
+    border-color: #c2c0c1;
+    background-color: #c2c0c1;
+    color: #394817;
+}
