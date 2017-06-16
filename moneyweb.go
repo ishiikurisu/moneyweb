@@ -1,6 +1,6 @@
 package main
 
-import "github.com/ishiikurisu/moneyweb/controller"
+import "github.com/ishiikurisu/logeyweb/controller"
 
 func main() {
     server := controller.CreateServer()

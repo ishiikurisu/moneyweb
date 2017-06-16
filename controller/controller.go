@@ -1,8 +1,8 @@
 package controller
 
 import "net/http"
-import "github.com/ishiikurisu/moneyweb/model"
-import "github.com/ishiikurisu/moneyweb/view"
+import "github.com/ishiikurisu/logeyweb/model"
+import "github.com/ishiikurisu/logeyweb/view"
 
 /*********************
  * SERVER DEFINITION *

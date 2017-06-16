@@ -1,4 +1,4 @@
-package moneylog
+package logey
 
 import "fmt"
 import "strings"

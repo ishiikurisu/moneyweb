@@ -1,8 +1,8 @@
 /*
-This package implements the fundamental
+This package implements the fundamental Logey structure: the log.
 */
 
-package moneylog
+package logey
 
 import "fmt"
 import "strings"

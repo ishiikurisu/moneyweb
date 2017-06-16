@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/ishiikurisu/moneyweb",
+	"ImportPath": "github.com/ishiikurisu/logeyweb",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v75",
 	"Packages": [
@@ -7,7 +7,7 @@
 	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/ishiikurisu/moneylog",
+			"ImportPath": "github.com/ishiikurisu/logey",
 			"Rev": "0b7f63bc93ae2533b902975706496d5f501c9bfe"
 		}
 	]

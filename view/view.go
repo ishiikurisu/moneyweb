@@ -10,7 +10,7 @@ import "strings"
 
 // Gets the current PWD
 func GetPwd() string {
-    codePath := "./src/github.com/ishiikurisu/moneyweb/"
+    codePath := "./src/github.com/ishiikurisu/logeyweb/"
     port := os.Getenv("PORT")
 
     if len(port) != 0 {

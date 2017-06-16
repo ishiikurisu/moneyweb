@@ -4,7 +4,7 @@ import "fmt"
 import "net/url"
 import "net/http"
 import "net/http/cookiejar"
-import "github.com/ishiikurisu/moneylog"
+import "github.com/ishiikurisu/logey"
 import "mime/multipart"
 import "bufio"
 import "time"
@@ -19,7 +19,7 @@ import "math"
 // coded to understand the app's behaviour.
 type LocalStorage struct {
     // The actual data. The logic of this application. The reason we are here.
-    MoneyLog moneylog.Log
+    logey logey.Log
 
     // The structure that will deal with our cookies.
     CookieJar *cookiejar.Jar
@@ -42,7 +42,7 @@ func NewLocalStorage() (*LocalStorage, error) {
         url.Host = "heroku.com"
         s := LocalStorage {
             // TODO Implement actual cookie jar
-            MoneyLog: moneylog.EmptyLog(),
+            logey: logey.EmptyLog(),
             CookieJar: jar,
             Url: url,
             LogFile: "log.txt",
@@ -59,7 +59,7 @@ func NewLocalStorage() (*LocalStorage, error) {
 // log, a string of length 0 is returned.
 func (storage *LocalStorage) GetLog(w http.ResponseWriter, r *http.Request) string {
     outlet := ""
-    cookie, err := r.Cookie("MoneyLog")
+    cookie, err := r.Cookie("logey")
 
 
     if err == nil {
@@ -116,9 +116,9 @@ func ReadField(reader *bufio.Reader) string {
 }
 
 // Saves a log on memory in the form of a cookie
-func (storage *LocalStorage) SaveCookie(log moneylog.Log, w http.ResponseWriter) http.ResponseWriter {
+func (storage *LocalStorage) SaveCookie(log logey.Log, w http.ResponseWriter) http.ResponseWriter {
     cookie := http.Cookie {
-        Name: "MoneyLog",
+        Name: "logey",
         Value: log.ToString(),
         Expires: time.Date(2020, time.May, 25, 23, 0, 0, 0, time.UTC),
         MaxAge: math.MaxInt32,
@@ -132,7 +132,7 @@ func (storage *LocalStorage) SaveCookie(log moneylog.Log, w http.ResponseWriter)
 func (storage *LocalStorage) AddEntryFromRawAndSaveLog(d, v string, w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
     description, value := stuffFromRaw(d, v)
     raw := storage.GetLog(w, r)
-    log := moneylog.LogFromString(raw)
+    log := logey.LogFromString(raw)
     log.Add(description, value)
     w = storage.SaveCookie(log, w)
     return w, r
@@ -140,7 +140,7 @@ func (storage *LocalStorage) AddEntryFromRawAndSaveLog(d, v string, w http.Respo
 
 // Stores the given log onto a cookie.
 func (storage *LocalStorage) AddLogFromRawAndSaveLog(raw string, w http.ResponseWriter, r *http.Request) (http.ResponseWriter, *http.Request) {
-    log := moneylog.LogFromString(raw)
+    log := logey.LogFromString(raw)
     w = storage.SaveCookie(log, w)
     return w, r
 }
