@@ -10,11 +10,14 @@
     </head>
     <body>
         <h1>LOGEY</h1>
-        <p>Logging your money since 2016</p>
         <div class="log">
-            <p><a href="add">Add entry</a></p>
-            <p><a href="/" onclick="downloadLog()">Download log</a></p>
-            <p>Balance: {{.Body.Balance}}</p>
+            <p>
+                <a href="add">Add entry</a> |
+                <a href="/" onclick="downloadLog()">Download log</a>
+            </p>
+            <p>
+                Balance: {{.Body.Balance}}
+            </p>
             {{.Body.Entries}}
         </div>
         {{.Footer}}
