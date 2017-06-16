@@ -1,1 +1,1 @@
-web: moneyweb
+web: logeyweb
