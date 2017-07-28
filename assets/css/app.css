@@ -52,19 +52,19 @@ td.negative {
 
 @keyframes example {
     from {
-        color: #394817;
+        color: #9BC74B;
     }
     to {
-        color: #9BC74B;
+        color: #394817;
     }
 }
 
 input[type=submit] {
     font-size: 30px;
     font-family: 'Fredoka One', cursive;
-    background-color: #fef8ce;
+    background: transparent;
     border-style: none;
-    color: #9BC74C;
+    color: #394817;
     text-decoration: underline;
     animation: example 1s;
 }

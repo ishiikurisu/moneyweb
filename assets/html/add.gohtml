@@ -11,9 +11,19 @@
     <body>
         <form action="register" method="post">
             <h2>Add entry!</h2>
-            <p>Entry description: {{.Body.Query}}</p>
-            <p>Value: <input type="text" name="value" value="0.00">$</p>
-            <p><input type="submit"></p>
+            <table rules='all'>
+                <tr>
+                    <td>Description:</td>
+                    <td>{{.Body.Query}}</td>
+                </tr>
+                <tr>
+                    <td>Value:</td>
+                    <td><input type="text" name="value" value="0.00">$</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit"></td>
+                </tr>
+            </table>
         </form>
     </body>
 </html>
