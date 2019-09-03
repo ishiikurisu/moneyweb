@@ -46,7 +46,13 @@ func LoadFileWithArgs(writer io.Writer, path string, args map[string]template.HT
 
 /* VIEWS */
 
+
+func ListStaticFiles() string {
+    return fmt.Sprintf("%sstatic", GetPwd())
+}
+
+
 // Displays the home screen
 func SayHello(writer io.Writer) {
-    LoadFileWithoutArgs(writer, "assets/html/index.empty.gohtml")
+    LoadFileWithoutArgs(writer, "assets/html/index.gohtml")
 }

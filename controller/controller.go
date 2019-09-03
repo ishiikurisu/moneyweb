@@ -23,9 +23,10 @@ func CreateServer() Server {
     }
 
     // Route stuff
-    http.HandleFunc("/", server.SayHello)
+    http.Handle("/", server.ProvideStaticFiles())
     // TODO add login and sign up routes
     // TODO add API for common actions
+    http.HandleFunc("/api/hi", server.SayHi)
 
     return server
 }
@@ -39,7 +40,11 @@ func (server *Server) Serve() {
  * SERVER ROUTED FUNCTIONS *
  ***************************/
 
-// Function for index function
-func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
-    view.SayHello(w)
+func (server *Server) ProvideStaticFiles() http.Handler {
+    return http.FileServer(http.Dir(view.ListStaticFiles()))
+}
+
+// api test
+func (server *Server) SayHi(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("hello!"))
 }
