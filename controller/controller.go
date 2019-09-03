@@ -1,8 +1,9 @@
 package controller
 
-import "net/http"
-import "github.com/ishiikurisu/logeyweb/model"
-import "github.com/ishiikurisu/logeyweb/view"
+import (
+    "net/http"
+    "github.com/ishiikurisu/logeyweb/view"
+)
 
 /*********************
  * SERVER DEFINITION *
@@ -10,9 +11,6 @@ import "github.com/ishiikurisu/logeyweb/view"
 
 // The definitions of a server.
 type Server struct {
-    // This storage is responsible for dealing with Cookies.
-    Storage *model.LocalStorage
-
     // This is the port this webserver will serve upon.
     Port string
 }
@@ -20,26 +18,14 @@ type Server struct {
 // Create a webserver for this app.
 func CreateServer() Server {
     // Create server structure
-    storage, oops := model.NewLocalStorage()
-    if oops != nil {
-        panic(oops)
-    }
-
     server := Server {
-        Storage: storage,
-        Port: model.GetPort(),
+        Port: GetPort(),
     }
 
     // Route stuff
     http.HandleFunc("/", server.SayHello)
-    http.HandleFunc("/add", server.AddEntry)
-    http.HandleFunc("/register", server.Register)
-    http.HandleFunc("/raw", server.DownloadLog)
-    http.HandleFunc("/upload", server.UploadLog)
-    http.HandleFunc("/uploading", server.UploadingLog)
-
-    // Registering API
-    model.RegisterApi()
+    // TODO add login and sign up routes
+    // TODO add API for common actions
 
     return server
 }
@@ -55,63 +41,5 @@ func (server *Server) Serve() {
 
 // Function for index function
 func (server *Server) SayHello(w http.ResponseWriter, r *http.Request) {
-    log := server.Storage.GetLog(w, r)
-    if len(log) > 0 {
-        view.BeUseful(w, model.LogToMap(log))
-    } else {
-        view.SayHello(w)
-    }
-}
-
-// Function for adding a entry
-func (server *Server) AddEntry(w http.ResponseWriter, r *http.Request) {
-    rawLog := server.Storage.GetLog(w, r)
-    msg := model.GetRandomMessage()
-
-    if len(rawLog) == 0 {
-        msg = "First log!"
-    }
-
-    data := make(map[string]string)
-    data["Message"] = msg
-    view.AddEntry(w, data)
-}
-
-// Saves entry to cookies and to model format
-func (server *Server) Register(w http.ResponseWriter, r *http.Request) {
-    // Extracting data from request
-    description := r.FormValue("description")
-    value := r.FormValue("value")
-
-    // Saving entry to current log
-    w, r = server.Storage.AddEntryFromRawAndSaveLog(description, value, w, r)
-
-    // Redirecting to correct page
-    http.Redirect(w, r, "/", http.StatusFound)
-}
-
-// Displays raw log on browser
-func (server *Server) DownloadLog(w http.ResponseWriter, r *http.Request) {
-    view.EnableData(w, server.Storage.GetLog(w, r))
-}
-
-// Displays the page to download log
-func (server *Server) UploadLog(w http.ResponseWriter, r *http.Request) {
-    view.UploadLog(w)
-}
-
-// Loads file from user's computer to use on logging
-func (server *Server) UploadingLog(w http.ResponseWriter, r *http.Request) {
-    // Extracting data from request
-    fp, _, err := r.FormFile("file")
-    if err != nil {
-        panic(err)
-    }
-
-    // Saving entry to current log
-    raw := server.Storage.AddLogFromFile(fp)
-    w, r = server.Storage.AddLogFromRawAndSaveLog(raw, w, r)
-
-    // Redirecting to correct page
-    http.Redirect(w, r, "/", http.StatusFound)
+    view.SayHello(w)
 }

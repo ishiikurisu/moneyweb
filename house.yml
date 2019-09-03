@@ -1,5 +1,8 @@
 ---
 build:
     commands:
-    - make web
-    
+    - go build github.com/ishiikurisu/logeyweb
+
+execute:
+    commands:
+    - ./logeyweb
