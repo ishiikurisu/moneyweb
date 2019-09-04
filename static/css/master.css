@@ -1,0 +1,83 @@
+/*
+COLORS:
+
+#131515
+#2B2C28
+#339989
+#7DE2D1
+#FFFAFB
+*/
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding&display=swap');
+
+body {
+    background-color: #2B2C28;
+    color: #FFFAFB;
+    font-family: 'Nanum Gothic Coding', monospace;
+    margin: 0px;
+}
+
+a:active,
+a:visited {
+    color: #FFFAFB;
+    text-decoration-color: #339989;
+}
+
+
+/**************
+ * NAVIGATION *
+ **************/
+
+.nav {
+    background-color: #131515;
+    color: #FFFAFB;
+    padding: 1em;
+    margin: 0px;
+}
+
+.logo {
+    color: #339989;
+    display: inline-block;
+}
+
+.nav-links {
+    display: inline-block;
+    float: right;
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+/*******
+ * APP *
+ *******/
+
+.app {
+    margin: 3em;
+    display: block;
+    align-items: center;
+}
+
+.actionable {
+    color: #FFFAFB;
+    font-family: inherit;
+    text-decoration-color: #339989;
+    text-decoration: underline;
+    background-color: inherit;
+    border: none;
+}
+
+.fillable {
+    color: #FFFAFB;
+    font-family: inherit;
+    text-decoration: none;
+    background-color: inherit;
+    border-width: 1px;
+    border-color: #7DE2D1;
+    width: 30em;
+    padding: 1em;
+}
+
+button {
+    font-size: 1.3em;
+}
