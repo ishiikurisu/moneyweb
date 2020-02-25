@@ -3,17 +3,10 @@ Logey
 
 Money logging for the web.
 
-About
------
-
-Logey is open source software distributed under [Unlicense](http://unlicense.org).
-
-Its color palette was generated with [coolors.co](https://coolors.co/5bc0eb-fde74c-9bc53d-c3423f-211a1e).
-
 Building
 --------
 
-Just run
+Execute:
 
 ```
 go get github.com/ishiikurisu/logey
@@ -26,33 +19,57 @@ API
 
 This server also provides an API to use Logey in your application by storing the log in a string and providing some tools to interact with it. The actions to post are the following:
 
-### `/api/new`
+### `POST /api/user/new`
 
-- Creates a new log string to be used.
-- Returns an empty log in the standard string format.
+Creates a new user.
 
-### `/api/add`
+Parameters:
 
-- Adds an entry to the log.
-- Parameter `log`: the log that will have the entry added.
-- Parameter `description`: the entry's description.
-- Parameter `value`: the entry's value.
-- Returns the log in standard format with the added entry.
+- `username`
+- `password`
+- `log`: The log to use when creating the user. Optional.
 
-### `/api/get/balance`
+Returns:
 
-- Calculates the balance of the log.
-- Parameter `log`: the log in standard format.
-- Returns the balance in string format.
+- `authentication`: it's a secret.
+- `log`: the user's log. If not provided on creation, will create a dummy log for him.
 
-### `/api/get/descriptions`
+### `POST /api/user/login`
 
-- Gets the description of each entry.
-- Parameter `log`: the log in standard format.
-- Returns a list of descriptions separated by commas.
+Logs the user in.
 
-### `/api/get/values`
+Parameters:
 
-- Gets the value of each entry.
-- Parameter `log`: the log in standard format.
-- Returns a list of values separated by commas.
+- `username`
+- `password`
+
+Returns:
+
+- `authentication`
+- `log`
+- `error`: a message detailing what went wrong. `null` otherwise.
+
+### `POST /api/log`
+
+Adds a new
+
+Parameters:
+
+- `authentication`
+- `log`
+
+Returns:
+
+- `error`
+
+### `POST /api/log/entries`
+
+Gets the user's log.
+
+Parameters:
+
+- `authentication`
+
+Returns:
+
+- `log`
