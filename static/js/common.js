@@ -8,3 +8,13 @@ function ready(fn) {
     document.addEventListener('DOMContentLoaded', fn);
   }
 }
+
+/**
+ * Loads the log from memory
+ */
+function loadUserDatabase(callback) {
+    return callback({
+        error: "not implemented yet",
+        log: null
+    });
+}
